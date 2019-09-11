@@ -1,5 +1,6 @@
 package swtest101.cribbage.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import swtest101.cribbage.entity.Card;
@@ -49,16 +50,40 @@ public class ScoringService {
 	}
 
 	static Integer calculateStraight(List<Card> hand) {
-		Integer score = 0; 
-//		Card previous;
-//		
-//		for(Card current : hand) {
-//			previous = current;
-//			if (previous == current) {
-//				score++;
+		Integer score = 1; 
+		Integer tmp = 1;
+		
+		sort(hand);
+
+		Card previous = hand.get(0);
+		for (Iterator<Card> iterator = hand.iterator(); iterator.hasNext();) {
+			Card next = (Card) iterator.next();
+			if(next.getRank().equals(previous.getRank()+1)) {
+				tmp++;
+				if(tmp > score) {
+					score = tmp;
+				}
+			}
+			else if(!next.getRank().equals(previous.getRank())){
+				tmp = 1;
+			}
+			previous = next;
+			
+		}
+//		for(Card current: hand) {
+//			if(current.getRank().equals(previous.getRank()+1)) {
+//				tmp++;
+//				if(tmp > score) {
+//					score = tmp;
+//				}
 //			}
+//			else if(!current.getRank().equals(previous.getRank())) {
+//				tmp = 1;
+//			}
+//			previous = current;
 //		}
-		return score ;
+		
+		return score > 2 ? score: 0;
 	}
 
 	static Integer calculateFlush(List<Card> hand) {

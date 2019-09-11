@@ -23,10 +23,10 @@ public class CalculateStraight {
 	public static Collection<Object[]> buildData() {
 		return Arrays.asList(new Object[][] { 
 //				INPUT      SCORE   CASE TEST
-			{ "2H3D4S5C6H", 5, "Full straight " }, 
-			{ "4C4H2D4D2H", 4, "4 straight" },
-			{ "4C4H2D8D2H", 3, "3 straight" },
-			{ "4C3H2D5D2H", 0, "No straight" },
+			{ "6H5D4S3C2H", 5, "Full straight " }, 
+			{ "5C4H2D3D2H", 4, "4 straight" },
+			{ "4C4H5D8D3H", 3, "3 straight" },
+			{ "4C6H2D7D2H", 0, "No straight" },
 																													// pair
 		});
 	}
@@ -42,9 +42,11 @@ public class CalculateStraight {
 
 	@Test
 	public void shouldScoreByPair() {
+		//config
 		List<Card> hand = ParseStringService.parseToListOfCards(input);
+		//action
 		final Integer score = ScoringService.calculateStraight(hand);
-
+		//verify
 		assertThat("Erro with "+test, score, is(equalTo(expectedScore)));
 	}
 }
