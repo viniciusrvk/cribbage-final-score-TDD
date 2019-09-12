@@ -2,6 +2,7 @@ package swtest101.cribbage.service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import swtest101.cribbage.entity.Card;
 import swtest101.cribbage.entity.Suit;
@@ -11,18 +12,21 @@ public class ScoringService {
 	public static Integer calculateScore(String handOfCards) {
 		Integer score = 0;
 		List<Card> cards = ParseStringService.parseToListOfCards(handOfCards);
+		for (int i = 1; i < cards.size(); i++) {
+			if (cards.get(0).getSuit().equals(cards.get(i).getSuit()) && cards.get(i).getRank().equals(11)) {
+				score++;
+				break;
+			}
+		}
 
 		sort(cards);
 
 		score += calculatePair(cards);
+		score += calculateStraight(cards);
+		score += calculateFlush(cards);
+		score += calculate15(cards);
 
-//		• Straight: Sequência de 3 cartas ou mais – 1 ponto por carta
-//		• Flush: 4 ou 5 cartas com o mesmo naipe – 1 ponto por carta
-//		• Nob: Se o jogador tiver um valete do mesmo naipe da Start Card – 1 ponto
-//		• 15: Qualquer combinação de cartas que some 15 – 2 pontos (Obs.: Para a soma dos 15, as cartas Rei,
-//		* Dama e Valete valem 10 e o Ás vale 1)
-
-		return null;
+		return score;
 	}
 
 //		* Pair: Par de cartas com o mesmo valor – 2 pontos
@@ -68,21 +72,8 @@ public class ScoringService {
 			else if(!next.getRank().equals(previous.getRank())){
 				tmp = 1;
 			}
-			previous = next;
-			
+			previous = next;	
 		}
-//		for(Card current: hand) {
-//			if(current.getRank().equals(previous.getRank()+1)) {
-//				tmp++;
-//				if(tmp > score) {
-//					score = tmp;
-//				}
-//			}
-//			else if(!current.getRank().equals(previous.getRank())) {
-//				tmp = 1;
-//			}
-//			previous = current;
-//		}
 		
 		return score > 2 ? score: 0;
 	}
@@ -102,6 +93,31 @@ public class ScoringService {
 
 	static Integer calculate15(List<Card> hand) {
 		Integer score = 0;
+		List<Integer> list = hand.stream().map(c -> c.getRank() > 10? 10: c.getRank()).collect(Collectors.toList());
+		
+		for (int a = 0; a < list.size(); a++) {
+			for (int b = a+1; b < list.size(); b++) {
+				if(list.get(a)+list.get(b) == 15) {
+					score +=2;
+				}
+				for (int c = b+1; c < list.size(); c++) {
+					if(list.get(a)+list.get(b)+list.get(c) == 15) {
+						score +=2;
+					}
+					for (int d = c+1; d < list.size(); d++) {
+						if(list.get(a)+list.get(b)+list.get(c)+list.get(d) == 15) {
+							score +=2;
+						}
+						for (int e = d+1; e < list.size(); e++) {
+							if(list.get(a)+list.get(b)+list.get(c)+list.get(d)+list.get(e) == 15) {
+								score +=2;
+							}							
+						}
+					}
+				}
+			}
+		}
+		
 		return score ;
 	}
 }

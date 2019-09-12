@@ -5,11 +5,16 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses(value = { CalculatePairTest.class, 
+@SuiteClasses(value = { 
 						ParseToCardTest.class, 
 						ParseToCardExceptionalTest.class, 
 						ParseStringServiceTest.class, 
-						ParseStringServiceExceptionalTest.class
+						ParseStringServiceExceptionalTest.class,
+						CalculatePairTest.class, 
+						CalculateStraight.class,
+						CalculateFlush.class,
+						Calculate15.class,
+						ScoringServiceTest.class
 						})
 public class AllTests {
 
