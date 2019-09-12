@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import swtest101.cribbage.entity.Card;
+import swtest101.cribbage.entity.Suit;
 
 public class ScoringService {
 
@@ -88,7 +89,15 @@ public class ScoringService {
 
 	static Integer calculateFlush(List<Card> hand) {
 		Integer score = 0;
-		return score ;
+
+		Integer heart = hand.parallelStream().filter(c -> c.getSuit()== Suit.HEARTS).mapToInt(c -> 1).sum();
+		Integer clubs = hand.parallelStream().filter(c -> c.getSuit()== Suit.CLUBS).mapToInt(c -> 1).sum();
+		Integer diamond = hand.parallelStream().filter(c -> c.getSuit()== Suit.DIAMONDS).mapToInt(c -> 1).sum();
+		Integer spade = hand.parallelStream().filter(c -> c.getSuit()== Suit.SPADES).mapToInt(c -> 1).sum();
+		
+		score = Integer.max(Integer.max(heart, clubs), Integer.max(diamond, spade));
+		
+		return score > 3 ? score: 0;
 	}
 
 	static Integer calculate15(List<Card> hand) {

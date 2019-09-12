@@ -23,9 +23,9 @@ public class CalculateFlush {
 	public static Collection<Object[]> buildData() {
 		return Arrays.asList(new Object[][] { 
 //				INPUT     SCORE    TEST CASE
-			{ "5H5D5S5C2H", 5, "5 cards same suit" }, 
-			{ "4C4H2D4D3H", 4, "4 cards same suit" },
-			{ "4C4H2D8D5H", 0, "3 cards same suit" }
+			{ "AH0H7H2H5H", 5, "5 cards same suit" }, 
+			{ "QDJD9D6D2H", 4, "4 cards same suit" },
+			{ "4S5S7SKHKC", 0, "3 cards same suit" }
 																													// pair
 		});
 	}
